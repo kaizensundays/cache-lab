@@ -18,6 +18,10 @@
         <leveldbjni.version>1.8</leveldbjni.version>
     </properties>
 
+    <modules>
+        <module>kappa-cache</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
 
@@ -53,6 +57,13 @@
                 <groupId>org.iq80.leveldb</groupId>
                 <artifactId>leveldb</artifactId>
                 <version>0.12</version>
+            </dependency>
+
+            <!-- Mockito -->
+            <dependency>
+                <groupId>org.mockito.kotlin</groupId>
+                <artifactId>mockito-kotlin</artifactId>
+                <version>5.4.0</version>
             </dependency>
 
             <!-- Test Containers -->
