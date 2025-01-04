@@ -15,15 +15,15 @@ interface RaftStateMachine<K, V> {
 
     fun withReplicationTimeout(timeout: Long): RaftStateMachine<K, V>
 
-    fun addEventListener(listener: EventListener)
+    fun addEventListener(listener: NodeEventListener)
 
     fun addRoleChangeListener(listener: RoleChangeListener)
 
     fun removeRoleChangeListener(listener: RoleChangeListener)
 
-    fun addCacheEventListener(listener: CacheEventListener<K, V?>)
+    fun addStateEventListener(listener: StateEventListener<K, V?>)
 
-    fun removeCacheEventListener(listener: CacheEventListener<K, V?>)
+    fun removeStateEventListener(listener: StateEventListener<K, V?>)
 
     fun get(key: K): V?
 
@@ -32,6 +32,8 @@ interface RaftStateMachine<K, V> {
     fun remove(key: K): V?
 
     fun removeIf(key: K, condition: Conditions, params: List<Any>): V?
+
+    fun getEntries(): MutableSet<MutableMap.MutableEntry<K, V>>
 
     fun iterator(): MutableIterator<Map.Entry<K, V>>
 

@@ -5,9 +5,9 @@ package com.kaizensundays.kappa.raft
  *
  * @author Sergey Chuykov
  */
-class NopEventListener : EventListener {
+class NopNodeEventListener : NodeEventListener {
 
-    override fun onEvent(type: EventType, msg: String) {
+    override fun onEvent(type: NodeEventType, msg: String) {
         //
     }
 

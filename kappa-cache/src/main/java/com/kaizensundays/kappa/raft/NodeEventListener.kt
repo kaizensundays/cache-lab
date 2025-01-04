@@ -5,8 +5,8 @@ package com.kaizensundays.kappa.raft
  *
  * @author Sergey Chuykov
  */
-fun interface EventListener {
+fun interface NodeEventListener {
 
-    fun onEvent(type: EventType, msg: String)
+    fun onEvent(type: NodeEventType, msg: String)
 
 }

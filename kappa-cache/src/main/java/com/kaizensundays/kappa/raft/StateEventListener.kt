@@ -5,8 +5,8 @@ package com.kaizensundays.kappa.raft
  *
  * @author Sergey Chuykov
  */
-fun interface CacheEventListener<K, V> {
+fun interface StateEventListener<K, V> {
 
-    fun onEvent(event: CacheEvent<K, V>)
+    fun onEvent(event: StateEvent<K, V>)
 
 }

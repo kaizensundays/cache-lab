@@ -5,7 +5,7 @@ package com.kaizensundays.kappa.raft
  *
  * @author Sergey Chuykov
  */
-enum class CacheEventType {
+enum class SateEventType {
 
     Put, Get, Remove
 
