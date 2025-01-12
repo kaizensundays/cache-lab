@@ -1,4 +1,4 @@
-package com.kaizensundays.kappa.raft
+package com.kaizensundays.eta.raft
 
 import java.io.Serializable
 

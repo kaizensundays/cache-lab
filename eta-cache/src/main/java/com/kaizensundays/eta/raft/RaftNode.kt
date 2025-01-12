@@ -1,4 +1,4 @@
-package com.kaizensundays.kappa.raft
+package com.kaizensundays.eta.raft
 
 /**
  * Created: Saturday 12/14/2024, 12:40 PM Eastern Time
