@@ -1,0 +1,206 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.kaizensundays.cachelab</groupId>
+        <artifactId>cachelab</artifactId>
+        <version>0.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>eta-nodes</artifactId>
+
+    <dependencies>
+
+        <!-- CacheLab -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eta-cache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Log4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+        </dependency>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JGroups -->
+        <dependency>
+            <groupId>org.jgroups</groupId>
+            <artifactId>jgroups-raft</artifactId>
+            <version>${jgroups-raft.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.fusesource.leveldbjni</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.iq80.leveldb</groupId>
+            <artifactId>leveldb</artifactId>
+            <version>0.12</version>
+        </dependency>
+
+        <!-- JCache -->
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+        </dependency>
+
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito.kotlin</groupId>
+            <artifactId>mockito-kotlin</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Test Containers -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ArchUnit -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                            <excludes>
+                                <exclude>**/*RemoteTest.*</exclude>
+                                <exclude>**/*ContainerTest.*</exclude>
+                            </excludes>
+                            <forkCount>0</forkCount>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>test-containers</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                            <excludes>
+                                <exclude>**/*RemoteTest.*</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>bin</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spring-boot.version}</version>
+                        <configuration>
+                            <finalName>service</finalName>
+                            <outputDirectory>bin</outputDirectory>
+                            <mainClass>com.kaizensundays.eta.jgroups.Main</mainClass>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.45.1</version>
+                        <configuration>
+                            <useColor>true</useColor>
+                            <images>
+                                <image>
+                                    <alias>${DOCKER_CONTAINER_ALIAS}</alias>
+                                    <name>localhost:32000/eta-cache</name>
+                                    <build>
+                                        <contextDir>${project.basedir}/docker</contextDir>
+                                        <user>root</user>
+                                    </build>
+                                    <run>
+                                        <containerNamePattern>%a</containerNamePattern>
+                                        <env>
+                                            <SERVER_PORT>${SERVER_PORT}</SERVER_PORT>
+                                            <JGROUPS_RAFT_MEMBERS>${JGROUPS_RAFT_MEMBERS}</JGROUPS_RAFT_MEMBERS>
+                                            <JGROUPS_RAFT_NODE_NAME>${JGROUPS_RAFT_NODE_NAME}</JGROUPS_RAFT_NODE_NAME>
+                                        </env>
+                                        <volumes>
+                                            <bind>
+                                                <volume>/home/super/var/jgroups/.RAFT:/opt/.RAFT</volume>
+                                            </bind>
+                                        </volumes>
+                                        <ports>
+                                            <port>${CONTAINER_SERVER_PORT}:${SERVER_PORT}</port>
+                                        </ports>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

@@ -24,6 +24,7 @@
 
     <modules>
         <module>eta-cache</module>
+        <module>eta-nodes</module>
     </modules>
 
     <dependencyManagement>

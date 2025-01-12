@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-lazy-init="true">
+
+    <bean id="touchedExpiryPolicy" class="javax.cache.expiry.TouchedExpiryPolicy" factory-method="factoryOf">
+        <constructor-arg>
+            <bean class="javax.cache.expiry.Duration">
+                <constructor-arg value="SECONDS"/>
+                <constructor-arg value="11"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="configuration" class="com.kaizensundays.eta.cache.EtaNodeConfiguration"
+          p:useUDP="${jgroups.useUDP}"
+          p:bindAddr="${jgroups.bindAddress}"
+          p:bindPort="${jgroups.bindPort}"
+          p:logDir="${jgroups.raft.logDir:.RAFT}"
+          p:nodeName="${jgroups.raft.nodeName}"
+          p:members="${jgroups.raft.members}"
+    >
+        <property name="cacheConfiguration">
+            <list>
+                <bean class="com.kaizensundays.eta.cache.EtaCacheConfiguration"
+                      p:cacheName="default"
+                      p:logType="InMemoryLog"
+                      p:expiryPolicyFactory-ref="touchedExpiryPolicy"
+                />
+                <bean class="com.kaizensundays.eta.cache.EtaCacheConfiguration"
+                      p:cacheName="events"
+                      p:logType="InMemoryLog"
+                      p:expiryPolicyFactory-ref="touchedExpiryPolicy"
+                />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="node" class="com.kaizensundays.eta.cache.EtaCacheNodeImpl" lazy-init="false">
+        <constructor-arg index="0">
+            <bean class="com.kaizensundays.eta.jgroups.JGroupsRaftNode"/>
+        </constructor-arg>
+        <property name="configuration" ref="configuration"/>
+    </bean>
+
+    <bean id="defaultCache" class="com.kaizensundays.eta.cache.EtaCacheFactoryBean"
+          p:node-ref="node"
+          p:cacheName="default"
+    />
+
+    <bean id="cacheCommandHandler" class="com.kaizensundays.eta.jgroups.CacheCommandHandler">
+        <constructor-arg index="0" ref="defaultCache"/>
+    </bean>
+
+    <bean class="com.kaizensundays.eta.jgroups.DefaultRestController">
+        <constructor-arg index="0" ref="cacheCommandHandler"/>
+    </bean>
+
+    <bean id="handler" class="com.kaizensundays.eta.jgroups.CacheWebSocketHandler">
+        <constructor-arg index="0" ref="cacheCommandHandler"/>
+    </bean>
+
+    <bean id="handlerMapping" class="org.springframework.web.reactive.handler.SimpleUrlHandlerMapping">
+        <property name="urlMap">
+            <map>
+                <entry key="/default/ws" value-ref="handler"/>
+            </map>
+        </property>
+        <property name="order" value="1"/>
+    </bean>
+
+    <bean id="webSocketHandlerAdapter" class="org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter"/>
+
+</beans>

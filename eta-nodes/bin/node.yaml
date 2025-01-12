@@ -1,0 +1,10 @@
+server:
+  port: ${SERVER_PORT}
+
+jgroups:
+  useUDP: true
+  bindAddress: ""
+  bindPort: 0
+  raft:
+    members: ${JGROUPS_RAFT_MEMBERS}
+    nodeName: ${JGROUPS_RAFT_NODE_NAME}

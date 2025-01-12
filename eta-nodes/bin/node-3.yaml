@@ -1,0 +1,10 @@
+server:
+  port: 7703
+
+jgroups:
+  useUDP: true
+  bindAddress: ""
+  bindPort: 0
+  raft:
+    members: A,B,C
+    nodeName: C

@@ -1,3 +1,3 @@
 set JAVA_HOME="%JAVA_17_HOME%"
 
-mvn clean install -P bin
+mvn clean install -P test

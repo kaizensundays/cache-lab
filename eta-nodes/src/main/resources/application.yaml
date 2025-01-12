@@ -1,0 +1,4 @@
+jgroups:
+  raft:
+    members: A,B,C
+    nodeName: UNASSIGNED
