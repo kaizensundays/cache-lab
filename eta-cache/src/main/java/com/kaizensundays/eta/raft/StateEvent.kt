@@ -6,7 +6,7 @@ package com.kaizensundays.eta.raft
  * @author Sergey Chuykov
  */
 class StateEvent<K, V>(
-    val type: SateEventType,
+    val type: StateEventType,
     val key: K,
     val value: V? = null,
     val oldValue: V? = null

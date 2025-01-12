@@ -5,7 +5,7 @@ package com.kaizensundays.eta.raft
  *
  * @author Sergey Chuykov
  */
-enum class SateEventType {
+enum class StateEventType {
 
     Put, Get, Remove
 

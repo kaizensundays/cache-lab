@@ -7,4 +7,4 @@ import java.io.Serializable
  *
  * @author Sergey Chuykov
  */
-class Value<V>(val value: V, val touched: Long) : Serializable
+class Value<V>(val value: V, var touched: Long) : Serializable
