@@ -19,7 +19,7 @@
     </properties>
 
     <modules>
-        <module>kappa-cache</module>
+        <module>eta-cache</module>
     </modules>
 
     <dependencyManagement>
