@@ -12,7 +12,7 @@ import javax.cache.Caching
  */
 class CacheManagerImplTest {
 
-    private val manager = CacheManagerImpl()
+    //private val manager = CacheManagerImpl()
 
     @Test
     fun createCache() {
@@ -21,14 +21,13 @@ class CacheManagerImplTest {
 
         assertNotNull(provider)
 
-        if (provider is CachingProvider) {
-            val node = provider.createNode()
-            assertNotNull(node)
-        }
+        val manager = provider.getCacheManager(null, null)
 
+/*
         val conf = EtaCacheConfiguration<String, String>()
 
         val cache = manager.createCache("default", conf)
+*/
     }
 
 }

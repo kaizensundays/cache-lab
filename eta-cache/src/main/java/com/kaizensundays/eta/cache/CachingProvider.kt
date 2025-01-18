@@ -3,6 +3,9 @@ package com.kaizensundays.eta.cache
 import com.kaizensundays.eta.raft.RaftNode
 import java.net.URI
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
+import java.util.concurrent.atomic.AtomicReference
 import javax.cache.CacheManager
 import javax.cache.configuration.OptionalFeature
 
@@ -12,6 +15,11 @@ import javax.cache.configuration.OptionalFeature
  * @author Sergey Chuykov
  */
 class CachingProvider : javax.cache.spi.CachingProvider {
+
+    private val defaultURI = URI.create("eta://default")
+
+    private val cacheManagers: MutableMap<ClassLoader, ConcurrentMap<URI, AtomicReference<CacheManager>>> = WeakHashMap()
+
     override fun close() {
         TODO("Not yet implemented")
     }
@@ -24,12 +32,40 @@ class CachingProvider : javax.cache.spi.CachingProvider {
         TODO("Not yet implemented")
     }
 
-    override fun getCacheManager(uri: URI?, classLoader: ClassLoader?, properties: Properties?): CacheManager {
-        TODO("Not yet implemented")
+    override fun getCacheManager(uri: URI?, classLoader: ClassLoader?, properties: Properties): CacheManager? {
+
+        val cfgUri = uri ?: getDefaultURI()
+
+        val clsLdr = classLoader ?: defaultClassLoader
+
+        var ref: AtomicReference<CacheManager>
+
+        val needStartMgr = false
+
+        synchronized(cacheManagers) {
+
+            var cacheManagerMap = cacheManagers[clsLdr]
+
+            if (cacheManagerMap == null) {
+                cacheManagerMap = ConcurrentHashMap()
+                cacheManagers[clsLdr] = cacheManagerMap
+            }
+
+            ref = cacheManagerMap.computeIfAbsent(cfgUri) { _ -> AtomicReference() }
+        }
+
+        if (needStartMgr) {
+
+            val manager = CacheManagerImpl(cfgUri, this, clsLdr, properties)
+
+            ref.set(manager)
+        }
+
+        return null
     }
 
-    override fun getCacheManager(uri: URI?, classLoader: ClassLoader?): CacheManager {
-        TODO("Not yet implemented")
+    override fun getCacheManager(uri: URI?, classLoader: ClassLoader?): CacheManager? {
+        return getCacheManager(uri, classLoader, Properties())
     }
 
     override fun getCacheManager(): CacheManager {
@@ -37,11 +73,11 @@ class CachingProvider : javax.cache.spi.CachingProvider {
     }
 
     override fun getDefaultClassLoader(): ClassLoader {
-        TODO("Not yet implemented")
+        return javaClass.classLoader
     }
 
     override fun getDefaultURI(): URI {
-        TODO("Not yet implemented")
+        return defaultURI
     }
 
     override fun getDefaultProperties(): Properties {

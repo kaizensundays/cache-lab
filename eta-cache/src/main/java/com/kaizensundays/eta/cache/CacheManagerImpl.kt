@@ -12,7 +12,12 @@ import javax.cache.spi.CachingProvider
  *
  * @author Sergey Chuykov
  */
-class CacheManagerImpl : CacheManager {
+class CacheManagerImpl(
+    private val uri: URI,
+    private val cachingProvider: CachingProvider,
+    private val clsLdr: ClassLoader,
+    private val props: Properties
+) : CacheManager {
 
     override fun close() {
         TODO("Not yet implemented")
