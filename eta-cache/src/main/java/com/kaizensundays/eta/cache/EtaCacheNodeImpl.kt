@@ -33,7 +33,7 @@ class EtaCacheNodeImpl(private val raftNode: RaftNode) : EtaCacheNode, Initializ
         } as EtaCache<K, V>
     }
 
-    override fun afterPropertiesSet() {
+    fun init() {
 
         raftNode.configure(
             RaftNodeConfiguration(
@@ -58,6 +58,10 @@ class EtaCacheNodeImpl(private val raftNode: RaftNode) : EtaCacheNode, Initializ
         cacheMap.values.forEach { cache -> cache.connect() }
 
         logger.info("Stared")
+    }
+
+    override fun afterPropertiesSet() {
+        init()
     }
 
     override fun destroy() {

@@ -2,6 +2,7 @@ package com.kaizensundays.eta.cache
 
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import java.lang.Thread.sleep
 import javax.cache.Caching
 
 
@@ -23,11 +24,13 @@ class CacheManagerImplTest {
 
         val manager = provider.getCacheManager(null, null)
 
-/*
-        val conf = EtaCacheConfiguration<String, String>()
+        /*
+                val conf = EtaCacheConfiguration<String, String>()
 
-        val cache = manager.createCache("default", conf)
-*/
+                val cache = manager.createCache("default", conf)
+        */
+
+        sleep(3000)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.kaizensundays.eta.cache
 
+import com.kaizensundays.eta.jgroups.JGroupsRaftNode
 import java.net.URI
 import java.util.*
 import javax.cache.Cache
@@ -18,6 +19,26 @@ class CacheManagerImpl(
     private val clsLdr: ClassLoader,
     private val props: Properties
 ) : CacheManager {
+
+    init {
+        start()
+    }
+
+    private fun start() {
+        if (uri == cachingProvider.defaultURI) {
+
+            val conf = EtaNodeConfiguration()
+            conf.nodeName = UUID.randomUUID().toString()
+            conf.members = mutableListOf(conf.nodeName)
+
+            val node = EtaCacheNodeImpl(JGroupsRaftNode())
+            node.configuration = conf
+            node.init()
+
+        } else {
+            throw UnsupportedOperationException()
+        }
+    }
 
     override fun close() {
         TODO("Not yet implemented")

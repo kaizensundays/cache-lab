@@ -40,7 +40,7 @@ class CachingProvider : javax.cache.spi.CachingProvider {
 
         var ref: AtomicReference<CacheManager>
 
-        val needStartMgr = false
+        var needStartMgr = false
 
         synchronized(cacheManagers) {
 
@@ -51,7 +51,10 @@ class CachingProvider : javax.cache.spi.CachingProvider {
                 cacheManagers[clsLdr] = cacheManagerMap
             }
 
-            ref = cacheManagerMap.computeIfAbsent(cfgUri) { _ -> AtomicReference() }
+            ref = cacheManagerMap.computeIfAbsent(cfgUri) { _ ->
+                needStartMgr = true
+                AtomicReference()
+            }
         }
 
         if (needStartMgr) {
