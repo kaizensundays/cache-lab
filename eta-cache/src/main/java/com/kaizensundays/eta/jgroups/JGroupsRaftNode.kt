@@ -106,6 +106,9 @@ class JGroupsRaftNode : RaftNode {
             MFC(),
             FRAG4(),
             FORK(),
+            RAFT().raftId(configuration.nodeName).members(configuration.members)
+                .logClass(InMemoryLog::class.java.getCanonicalName())
+                .logDir(System.getProperty("log_dir", ".RAFT")),
             //
         )
 
