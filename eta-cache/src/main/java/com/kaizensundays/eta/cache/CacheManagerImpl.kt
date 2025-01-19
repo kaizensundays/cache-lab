@@ -1,6 +1,6 @@
 package com.kaizensundays.eta.cache
 
-import com.kaizensundays.eta.jgroups.JGroupsRaftNode
+import com.kaizensundays.eta.context.Context
 import java.net.URI
 import java.util.*
 import javax.cache.Cache
@@ -31,8 +31,7 @@ class CacheManagerImpl(
             conf.nodeName = UUID.randomUUID().toString()
             conf.members = mutableListOf(conf.nodeName)
 
-            val node = EtaCacheNodeImpl(JGroupsRaftNode())
-            node.configuration = conf
+            val node = Context.cacheNode(conf)
             node.init()
 
         } else {

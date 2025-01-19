@@ -33,7 +33,7 @@ class EtaCacheNodeImpl(private val raftNode: RaftNode) : EtaCacheNode, Initializ
         } as EtaCache<K, V>
     }
 
-    fun init() {
+    override fun init() {
 
         raftNode.configure(
             RaftNodeConfiguration(

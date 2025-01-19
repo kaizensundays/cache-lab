@@ -12,4 +12,6 @@ interface EtaCacheNode {
 
     fun <K, V> getCache(cacheName: String): EtaCache<K, V>
 
+    fun init()
+
 }
