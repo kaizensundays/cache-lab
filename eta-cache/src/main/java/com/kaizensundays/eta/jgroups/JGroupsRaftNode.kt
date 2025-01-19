@@ -107,6 +107,13 @@ class JGroupsRaftNode : RaftNode {
             FRAG4(),
             FORK(),
             //
+            // it could be better to assign address generator to ForkChannel
+            // var fc: ForkChannel?
+            //    fc?.addAddressGenerator {
+            //        ExtendedUUID.setPrintFunction(print_function)
+            //        ExtendedUUID.randomUUID(ch.getName()).put(raft_id_key, Util.stringToBytes(raft_id))
+            // };
+            //
             RAFT().raftId(configuration.nodeName).members(configuration.members)
                 .logClass(InMemoryLog::class.java.getCanonicalName())
                 .logDir(System.getProperty("log_dir", ".RAFT")),
