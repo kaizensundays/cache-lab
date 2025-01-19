@@ -10,7 +10,11 @@ package com.kaizensundays.eta.cache
 )
 interface EtaCacheNode {
 
+    fun getNodeConfiguration(): EtaNodeConfiguration
+
     fun <K, V> getCache(cacheName: String): EtaCache<K, V>
+
+    fun <K, V> getOrCreateCache(conf: EtaNodeConfiguration, cacheConf: EtaCacheConfiguration<K, V>): EtaCache<K, V>
 
     fun init()
 

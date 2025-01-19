@@ -1,5 +1,6 @@
 package com.kaizensundays.eta.cache
 
+import com.kaizensundays.eta.raft.LogType
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import java.lang.Thread.sleep
@@ -19,16 +20,15 @@ class CacheManagerImplTest {
     fun createCache() {
 
         val provider = Caching.getCachingProvider()
-
         assertNotNull(provider)
 
         val manager = provider.getCacheManager(null, null)
+        assertNotNull(manager)
 
-        /*
-                val conf = EtaCacheConfiguration<String, String>()
+        val conf = EtaCacheConfiguration<String, String>()
+        conf.logType = LogType.InMemoryLog
 
-                val cache = manager.createCache("default", conf)
-        */
+        val cache = manager.createCache("default", conf)
 
         sleep(3000)
     }

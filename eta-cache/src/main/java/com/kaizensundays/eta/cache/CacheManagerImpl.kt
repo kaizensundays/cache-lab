@@ -24,6 +24,8 @@ class CacheManagerImpl(
         start()
     }
 
+    lateinit var node: EtaCacheNode
+
     private fun start() {
         if (uri == cachingProvider.defaultURI) {
 
@@ -31,7 +33,7 @@ class CacheManagerImpl(
             conf.nodeName = UUID.randomUUID().toString()
             conf.members = mutableListOf(conf.nodeName)
 
-            val node = Context.cacheNode(conf)
+            node = Context.cacheNode(conf)
             node.init()
 
         } else {
@@ -59,8 +61,13 @@ class CacheManagerImpl(
         TODO("Not yet implemented")
     }
 
-    override fun <K : Any?, V : Any?, C : Configuration<K, V>?> createCache(cacheName: String?, configuration: C): Cache<K, V>? {
-        return null
+    override fun <K : Any?, V : Any?, C : Configuration<K, V>> createCache(cacheName: String?, configuration: C): Cache<K, V>? {
+
+        val cacheConf: EtaCacheConfiguration<K, V> = configuration as EtaCacheConfiguration<K, V>
+
+        val cache = node.getOrCreateCache(node.getNodeConfiguration(), cacheConf)
+
+        return cache
     }
 
     override fun <K : Any?, V : Any?> getCache(cacheName: String?, keyType: Class<K>?, valueType: Class<V>?): Cache<K, V> {

@@ -64,7 +64,7 @@ class CachingProvider : javax.cache.spi.CachingProvider {
             ref.set(manager)
         }
 
-        return null
+        return ref.get()
     }
 
     override fun getCacheManager(uri: URI?, classLoader: ClassLoader?): CacheManager? {

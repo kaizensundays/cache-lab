@@ -21,13 +21,17 @@ class EtaCacheNodeImpl(private val raftNode: RaftNode) : EtaCacheNode, Initializ
 
     private val cacheMap: MutableMap<String, EtaCache<*, *>> = ConcurrentHashMap()
 
+    override fun getNodeConfiguration(): EtaNodeConfiguration {
+        return configuration
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun <K, V> getCache(cacheName: String): EtaCache<K, V> {
         return (cacheMap[cacheName] ?: throw IllegalStateException()) as EtaCache<K, V>
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <K, V> getOrCreateCache(conf: EtaNodeConfiguration, cacheConf: EtaCacheConfiguration<K, V>): EtaCache<K, V> {
+    override fun <K, V> getOrCreateCache(conf: EtaNodeConfiguration, cacheConf: EtaCacheConfiguration<K, V>): EtaCache<K, V> {
         return cacheMap.computeIfAbsent(cacheConf.cacheName) { _ ->
             EtaCacheImpl(conf, cacheConf, raftNode)
         } as EtaCache<K, V>
