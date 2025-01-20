@@ -42,7 +42,7 @@ class CacheManagerImpl(
     }
 
     override fun close() {
-        TODO("Not yet implemented")
+        node.destroy()
     }
 
     override fun getCachingProvider(): CachingProvider {

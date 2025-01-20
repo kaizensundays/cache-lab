@@ -18,4 +18,6 @@ interface EtaCacheNode {
 
     fun init()
 
+    fun destroy()
+
 }
