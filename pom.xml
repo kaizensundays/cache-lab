@@ -20,9 +20,11 @@
         <spring-boot.version>3.3.7</spring-boot.version>
         <jgroups-raft.version>1.0.14.Final</jgroups-raft.version>
         <leveldbjni.version>1.8</leveldbjni.version>
+        <jmh.version>1.37</jmh.version>
     </properties>
 
     <modules>
+        <module>eta-benchmarks</module>
         <module>eta-cache</module>
         <module>eta-nodes</module>
     </modules>
