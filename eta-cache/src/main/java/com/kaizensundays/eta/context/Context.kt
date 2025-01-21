@@ -13,9 +13,7 @@ import com.kaizensundays.eta.jgroups.JGroupsRaftNode
 object Context {
 
     fun cacheNode(conf: EtaNodeConfiguration): EtaCacheNode {
-        val node = EtaCacheNodeImpl(JGroupsRaftNode())
-        node.configuration = conf
-        return node
+        return EtaCacheNodeImpl(JGroupsRaftNode(), conf)
     }
 
 }

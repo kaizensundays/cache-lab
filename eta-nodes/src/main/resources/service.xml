@@ -42,7 +42,7 @@
         <constructor-arg index="0">
             <bean class="com.kaizensundays.eta.jgroups.JGroupsRaftNode"/>
         </constructor-arg>
-        <property name="configuration" ref="configuration"/>
+        <constructor-arg index="1" ref="configuration"/>
     </bean>
 
     <bean id="defaultCache" class="com.kaizensundays.eta.cache.EtaCacheFactoryBean"

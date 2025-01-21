@@ -13,11 +13,12 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * @author Sergey Chuykov
  */
-class EtaCacheNodeImpl(private val raftNode: RaftNode) : EtaCacheNode, InitializingBean, DisposableBean {
+class EtaCacheNodeImpl(
+    private val raftNode: RaftNode,
+    private val configuration: EtaNodeConfiguration
+) : EtaCacheNode, InitializingBean, DisposableBean {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
-
-    var configuration = EtaNodeConfiguration()
 
     private val cacheMap: MutableMap<String, EtaCache<*, *>> = ConcurrentHashMap()
 
