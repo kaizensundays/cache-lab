@@ -27,8 +27,8 @@ import kotlin.math.exp
  */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 1, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 3, time = 10, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 @State(Scope.Benchmark)
 open class CacheBenchmark : BenchmarkSupport() {
