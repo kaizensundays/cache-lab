@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
-import java.lang.Thread.sleep
-import kotlin.system.exitProcess
 
 /**
  * Created: Sunday 9/29/2024, 12:28 PM Eastern Time
@@ -38,13 +36,12 @@ class DefaultRestController(
 
     @GetMapping("/shutdown")
     fun shutdown(): String {
-        logger.info("Shutdown")
 
         Mono.fromRunnable<Any> {
+            printNonDaemonThreadsOnShutdown()
+            logger.info("Shutdown")
             context.close()
             logger.info("Exiting JVM ...")
-            sleep(3000)
-            exitProcess(0)
         }.subscribeOn(Schedulers.boundedElastic()).subscribe()
 
         return "Ok"

@@ -33,6 +33,8 @@ class ExpirySchedulerImpl<K, V>(private val cache: EtaCache<K, V>) : ExpirySched
     override fun stop() {
 
         f?.cancel(false)
+
+        executor.shutdownNow()
     }
 
 }

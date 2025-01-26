@@ -251,6 +251,8 @@ class JGroupsRaftNode : RaftNode {
         logger.debug("Unlock")
         lock.put(1)
 
+        mainChannel.disconnect()
+
         logger.info("Stopped")
     }
 
