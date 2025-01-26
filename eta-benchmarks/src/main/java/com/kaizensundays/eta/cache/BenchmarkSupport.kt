@@ -31,7 +31,7 @@ abstract class BenchmarkSupport {
             .include(".*" + this.javaClass.name + ".*")
             .warmupTime(TimeValue.seconds(3))
             .warmupIterations(warmupCount())
-            .measurementTime(TimeValue.seconds(3))
+            .measurementTime(TimeValue.seconds(1))
             .measurementIterations(runCount())
             .verbosity(VerboseMode.NORMAL)
             .jvmArgs("-Xms1024m", "-Xmx1024m")
@@ -42,7 +42,7 @@ abstract class BenchmarkSupport {
     }
 
     private fun runCount(): Int {
-        return 3
+        return 1
     }
 
     private fun warmupCount(): Int {
