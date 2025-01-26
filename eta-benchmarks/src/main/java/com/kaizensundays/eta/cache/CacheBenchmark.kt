@@ -11,6 +11,10 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.annotations.TearDown
 import org.openjdk.jmh.annotations.Warmup
+import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
+import java.lang.Thread.sleep
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.cache.CacheManager
 import javax.cache.Caching
@@ -24,29 +28,33 @@ import kotlin.math.exp
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @Warmup(iterations = 1, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 1, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 @State(Scope.Benchmark)
-open class CacheBenchmark {
+open class CacheBenchmark : BenchmarkSupport() {
 
     private lateinit var manager: CacheManager
 
     @Setup
     open fun setup() {
-        println("*** setup >")
+        log("Starting cache ...")
 
         val provider = Caching.getCachingProvider()
 
         manager = provider.getCacheManager(null, null)
 
-        println("*** setup <")
+        log("Started")
     }
 
     @TearDown
     open fun tearDown() {
-        println("*** tearDown >")
-        manager.close()
-        println("*** tearDown <")
+        Mono.fromRunnable<Any> {
+            sleep(1000)
+            log("Stopping cache ...")
+            manager.close()
+            log("Stopped")
+        }.subscribeOn(Schedulers.boundedElastic())
+            .block(Duration.ofSeconds(60))
     }
 
     @Benchmark
