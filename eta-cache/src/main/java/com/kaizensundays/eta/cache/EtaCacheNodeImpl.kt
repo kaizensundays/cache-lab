@@ -57,9 +57,8 @@ class EtaCacheNodeImpl(
         configuration.cacheConfiguration.forEach { cacheConf ->
             val cache = getOrCreateCache(configuration, cacheConf)
             cache.init()
+            cache.connect()
         }
-
-        cacheMap.values.forEach { cache -> cache.connect() }
 
         logger.info("Stared")
     }
