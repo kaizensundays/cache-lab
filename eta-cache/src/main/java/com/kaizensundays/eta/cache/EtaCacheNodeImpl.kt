@@ -52,13 +52,12 @@ class EtaCacheNodeImpl(
         )
 
         raftNode.init()
+        raftNode.connect()
 
         configuration.cacheConfiguration.forEach { cacheConf ->
             val cache = getOrCreateCache(configuration, cacheConf)
             cache.init()
         }
-
-        raftNode.connect()
 
         cacheMap.values.forEach { cache -> cache.connect() }
 

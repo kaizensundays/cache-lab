@@ -114,6 +114,7 @@ class JGroupsRaftNode : RaftNode {
             //        ExtendedUUID.randomUUID(ch.getName()).put(raft_id_key, Util.stringToBytes(raft_id))
             // };
             //
+            ELECTION(), // to register magic numbers
             RAFT().raftId(configuration.nodeName).members(configuration.members)
                 .logClass(InMemoryLog::class.java.getCanonicalName())
                 .logDir(System.getProperty("log_dir", ".RAFT")),
