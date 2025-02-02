@@ -252,7 +252,8 @@ class JGroupsRaftNode : RaftNode {
         logger.debug("Unlock")
         lock.put(1)
 
-        mainChannel.disconnect()
+        // disconnect, releases all resources and destroys the channel
+        mainChannel.close()
 
         logger.info("Stopped")
     }

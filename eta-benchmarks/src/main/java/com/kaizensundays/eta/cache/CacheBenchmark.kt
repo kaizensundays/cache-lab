@@ -89,7 +89,7 @@ open class CacheBenchmark : BenchmarkSupport() {
         }.subscribeOn(Schedulers.boundedElastic())
             .subscribe()
 
-        shutdown(3)
+        //shutdown(3)
     }
 
     @Benchmark
