@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit
 import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching
-import kotlin.system.exitProcess
 
 /**
  * Created: Monday 1/20/2025, 12:36 PM Eastern Time
@@ -33,7 +32,7 @@ import kotlin.system.exitProcess
 @OutputTimeUnit(TimeUnit.SECONDS)
 @Warmup(iterations = 1, time = 3, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 3, time = 3, timeUnit = TimeUnit.SECONDS)
-@Fork(0)
+@Fork(1)
 @State(Scope.Benchmark)
 open class CacheBenchmark : BenchmarkSupport() {
 
@@ -90,7 +89,7 @@ open class CacheBenchmark : BenchmarkSupport() {
         }.subscribeOn(Schedulers.boundedElastic())
             .subscribe()
 
-        shutdown(10)
+        shutdown(3)
     }
 
     @Benchmark
@@ -102,6 +101,14 @@ open class CacheBenchmark : BenchmarkSupport() {
         cache.put(key, key)
         //sleep(10)
         return key
+    }
+
+    @Benchmark
+    @OperationsPerInvocation(1)
+    open fun get(): String {
+        val i = (++index % NUM_OF_KEYS).toInt()
+        val key = keys[i]
+        return cache[key]
     }
 
 }

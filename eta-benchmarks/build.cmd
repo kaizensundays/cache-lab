@@ -1,4 +1,4 @@
 set JAVA_HOME="%JAVA_17_HOME%"
 
-mvn clean verify -P boot
+mvn clean verify -P shade
 

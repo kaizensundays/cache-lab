@@ -15,7 +15,6 @@ object Main {
 
         val opts = OptionsBuilder()
             .include(".*Benchmark.*")
-            .forks(0)
             .build()
 
         Runner(opts).run()
