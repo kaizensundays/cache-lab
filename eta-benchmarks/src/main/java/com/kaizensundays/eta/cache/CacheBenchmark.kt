@@ -18,11 +18,11 @@ import reactor.core.scheduler.Schedulers
 import site.ycsb.generator.NumberGenerator
 import site.ycsb.generator.ScrambledZipfianGenerator
 import java.lang.Thread.sleep
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching
+import kotlin.system.exitProcess
 
 /**
  * Created: Monday 1/20/2025, 12:36 PM Eastern Time
@@ -81,13 +81,16 @@ open class CacheBenchmark : BenchmarkSupport() {
 
     @TearDown
     open fun tearDown() {
+
         Mono.fromRunnable<Any> {
             sleep(1000)
             log("Stopping cache ...")
             manager.close()
             log("Stopped")
         }.subscribeOn(Schedulers.boundedElastic())
-            .block(Duration.ofSeconds(60))
+            .subscribe()
+
+        shutdown(10)
     }
 
     @Benchmark

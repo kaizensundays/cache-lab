@@ -9,6 +9,7 @@ import org.openjdk.jmh.runner.options.VerboseMode
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
+import kotlin.system.exitProcess
 
 /**
  * Created: Sunday 1/26/2025, 11:24 AM Eastern Time
@@ -53,4 +54,12 @@ abstract class BenchmarkSupport {
         println("" + Date() + " " + Thread.currentThread().name + " " + m)
     }
 
+    fun shutdown(delaySec: Int) {
+
+        Thread({
+            Thread.sleep(delaySec * 1000L)
+            log("Exiting JVM ...")
+            exitProcess(0)
+        }, "SHUTDOWN").start()
+    }
 }
