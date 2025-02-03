@@ -51,7 +51,7 @@ abstract class BenchmarkSupport {
     }
 
     fun log(m: String) {
-        println("" + Date() + " " + Thread.currentThread().name + " " + m)
+        println("" + Date() + " (" + Thread.currentThread().name + ") " + m)
     }
 
     fun shutdown(delaySec: Int) {
