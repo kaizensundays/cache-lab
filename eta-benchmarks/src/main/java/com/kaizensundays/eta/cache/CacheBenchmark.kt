@@ -13,8 +13,6 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.annotations.TearDown
 import org.openjdk.jmh.annotations.Warmup
-import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 import site.ycsb.generator.NumberGenerator
 import site.ycsb.generator.ScrambledZipfianGenerator
 import java.lang.Thread.sleep
@@ -81,15 +79,14 @@ open class CacheBenchmark : BenchmarkSupport() {
     @TearDown
     open fun tearDown() {
 
-        Mono.fromRunnable<Any> {
+        Thread({
             sleep(1000)
             log("Stopping cache ...")
             manager.close()
             log("Stopped")
-        }.subscribeOn(Schedulers.boundedElastic())
-            .subscribe()
+        }, "shutdown").start()
 
-        shutdown(3)
+        //shutdown(3)
     }
 
     @Benchmark

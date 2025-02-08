@@ -299,7 +299,10 @@ class JGroupsStateMachine<K, V>(private val ch: JChannel, raftHandle: RaftHandle
     }
 
     override fun destroy() {
-        ch.disconnect()
+
+        // disconnect, releases all resources and destroys the channel
+        ch.close()
+
         roleChangeListenerMap.clear()
         listenerMap.clear()
     }

@@ -114,6 +114,7 @@ class JGroupsRaftNode : RaftNode {
             //        ExtendedUUID.randomUUID(ch.getName()).put(raft_id_key, Util.stringToBytes(raft_id))
             // };
             //
+            ELECTION(), // to register magic numbers
             RAFT().raftId(configuration.nodeName).members(configuration.members)
                 .logClass(InMemoryLog::class.java.getCanonicalName())
                 .logDir(System.getProperty("log_dir", ".RAFT")),
@@ -251,7 +252,8 @@ class JGroupsRaftNode : RaftNode {
         logger.debug("Unlock")
         lock.put(1)
 
-        mainChannel.disconnect()
+        // disconnect, releases all resources and destroys the channel
+        mainChannel.close()
 
         logger.info("Stopped")
     }

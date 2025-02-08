@@ -8,8 +8,6 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 
 /**
  * Created: Sunday 9/29/2024, 12:28 PM Eastern Time
@@ -37,12 +35,12 @@ class DefaultRestController(
     @GetMapping("/shutdown")
     fun shutdown(): String {
 
-        Mono.fromRunnable<Any> {
+        Thread({
             printNonDaemonThreadsOnShutdown()
             logger.info("Shutdown")
             context.close()
             logger.info("Exiting JVM ...")
-        }.subscribeOn(Schedulers.boundedElastic()).subscribe()
+        }, "shutdown").start()
 
         return "Ok"
     }
