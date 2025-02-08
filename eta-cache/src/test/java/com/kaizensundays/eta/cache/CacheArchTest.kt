@@ -1,11 +1,7 @@
 package com.kaizensundays.eta.cache
 
-import com.kaizensundays.eta.jgroups.CacheCommandHandler
-import com.tngtech.archunit.base.DescribedPredicate.not
-import com.tngtech.archunit.core.domain.JavaClass.Predicates.equivalentTo
 import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 /**
@@ -13,7 +9,7 @@ import org.junit.jupiter.api.Test
  *
  * @author Sergey Chuykov
  */
-class ArchTest {
+class CacheArchTest {
 
     private fun classes() = ClassFileImporter().importPackages("com.kaizensundays.eta")
 
@@ -46,7 +42,6 @@ class ArchTest {
         noClasses()
             .that()
             .resideInAPackage("com.kaizensundays.eta.jgroups")
-            .and(not(equivalentTo(CacheCommandHandler::class.java)))
             .should()
             .accessClassesThat().resideInAPackage("com.kaizensundays.eta.cache")
             .check(classes)

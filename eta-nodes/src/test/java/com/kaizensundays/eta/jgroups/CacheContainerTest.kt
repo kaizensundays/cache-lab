@@ -54,7 +54,7 @@ class CacheContainerTest : CacheContainerTestSupport() {
 
         val keyNum = 10
         val messagesPerKey = 2
-        val rounds = 4
+        val rounds = 8
         val total = keyNum * messagesPerKey * rounds
 
         val f = driver.execute(keyNum, messagesPerKey, rounds)
