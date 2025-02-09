@@ -128,9 +128,9 @@
                         <configuration>
                             <skipTests>false</skipTests>
                             <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                            <excludes>
-                                <exclude>**/*RemoteTest.*</exclude>
-                            </excludes>
+                            <includes>
+                                <include>**/*ContainerTest.*</include>
+                            </includes>
                         </configuration>
                     </plugin>
                 </plugins>
