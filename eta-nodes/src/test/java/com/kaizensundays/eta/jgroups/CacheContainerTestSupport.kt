@@ -11,6 +11,7 @@ import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.Network
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.utility.DockerImageName
+import java.lang.Thread.sleep
 import java.net.InetAddress
 import java.net.URI
 import java.net.UnknownHostException
@@ -26,9 +27,9 @@ import java.util.concurrent.TimeUnit
  */
 abstract class CacheContainerTestSupport {
 
-    val logger: Logger = LoggerFactory.getLogger(javaClass)
-
     companion object {
+
+        val logger: Logger = LoggerFactory.getLogger(CacheContainerTestSupport::class.java)
 
         const val KUBE_HOST = "Nevada"
 
@@ -80,6 +81,7 @@ abstract class CacheContainerTestSupport {
             val latch = CountDownLatch(3)
 
             containers.forEachIndexed { n, container ->
+                sleep(n * 10_000L)
                 executor.execute {
                     val name = "eta-cache$n"
                     container.withNetwork(network)
@@ -91,13 +93,13 @@ abstract class CacheContainerTestSupport {
                             cmd.withName(name)
                         }
                     container.start()
-                    println("Stared - $name")
+                    logger.info("Started - $name")
                     latch.countDown()
                 }
             }
 
             latch.await(1000, TimeUnit.SECONDS)
-            println("Stared")
+            logger.info("Started all containers")
         }
 
         @JvmStatic
