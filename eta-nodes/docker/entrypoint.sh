@@ -10,5 +10,11 @@ export JG_FLAGS="-Djgroups.udp.mcast_addr=232.5.5.5 -Djava.net.preferIPv4Stack=t
 java $FLAGS $JG_FLAGS \
  -Dlog4j2.configurationFile=log4j2.xml -Dlog4j.shutdownHookEnabled=false -Dlog4j2.debug=false \
  -Dproperties=node.yaml \
+ -Dcom.sun.management.jmxremote.port=7901 \
+ -Dcom.sun.management.jmxremote.rmi.port=7901 \
+ -Dcom.sun.management.jmxremote.authenticate=false \
+ -Dcom.sun.management.jmxremote.ssl=false \
+ -Dcom.sun.management.jmxremote.host=0.0.0.0 \
+ -Djava.rmi.server.hostname=0.0.0.0 \
  -Dloader.main=com.kaizensundays.eta.jgroups.Main \
  -cp service.jar org.springframework.boot.loader.launch.PropertiesLauncher

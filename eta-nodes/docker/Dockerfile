@@ -18,5 +18,6 @@ COPY service.jar .
 RUN dos2unix *.sh; chmod ug+x *.sh
 
 EXPOSE 7701
+EXPOSE 7901
 
 ENTRYPOINT ["./entrypoint.sh"]

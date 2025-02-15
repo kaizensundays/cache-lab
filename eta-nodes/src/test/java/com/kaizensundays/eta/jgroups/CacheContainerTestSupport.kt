@@ -34,6 +34,7 @@ abstract class CacheContainerTestSupport {
         const val KUBE_HOST = "Nevada"
 
         const val SERVER_PORT = 7701
+        val jmxPort: Int = Integer.valueOf(System.getProperty("eta.jmx.port", "0"))
         const val JGROUPS_RAFT_MEMBERS = "A,B,C"
 
         private val env = mapOf(
@@ -91,7 +92,12 @@ abstract class CacheContainerTestSupport {
                         .waitingFor(Wait.forHttp("/ping").withStartupTimeout(Duration.ofSeconds(100)))
                         .withCreateContainerCmdModifier { cmd ->
                             cmd.withName(name)
+                            cmd.withPortSpecs()
                         }
+                    if (jmxPort > 0) {
+                        val externalJmxPort = 20_000 + jmxPort + n
+                        container.portBindings = listOf("$externalJmxPort:${jmxPort}")
+                    }
                     container.start()
                     logger.info("Started - $name")
                     latch.countDown()
@@ -115,7 +121,8 @@ abstract class CacheContainerTestSupport {
 
         return containers.map { container ->
             val port = container.getMappedPort(SERVER_PORT)
-            logger.info("{}", port)
+            val jmxPort = if (jmxPort > 0) container.getMappedPort(jmxPort) else 0
+            logger.info("port={} jmxPort={}", port, jmxPort)
             val loadBalancer = DefaultLoadBalancer(listOf(Instance(KUBE_HOST, port)))
             WebFluxProducer(loadBalancer)
         }
