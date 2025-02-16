@@ -61,15 +61,23 @@ class CacheCommandHandler(private val cache: EtaCache<String, String>) : Initial
         return "Ok"
     }
 
-    fun execute(msg: Msg): String {
+    fun execute(msg: Msg): Response {
 
-        when (msg) {
-            is CacheGet -> cache.get(msg.key)
-            is CachePut -> cache.put(msg.key, msg.value)
-            else -> throw UnsupportedOperationException()
+        return when (msg) {
+            is CacheGet -> {
+                val value = cache[msg.key]
+                CacheValue(value)
+            }
+
+            is CachePut -> {
+                cache.put(msg.key, msg.value)
+                Response(0, "Ok")
+            }
+
+            else -> {
+                Response(1, "Unexpected message type: ${msg.javaClass.canonicalName}")
+            }
         }
-
-        return "Ok"
     }
 
 }

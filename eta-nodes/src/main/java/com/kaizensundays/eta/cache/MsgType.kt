@@ -8,6 +8,8 @@ package com.kaizensundays.eta.cache
 enum class MsgType(val id: Int) {
 
     CacheGet(1),
-    CachePut(2)
+    CachePut(2),
+    Response(3),
+    CacheValue(4)
 
 }
