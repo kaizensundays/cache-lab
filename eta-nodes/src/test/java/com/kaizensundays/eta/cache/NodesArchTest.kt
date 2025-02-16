@@ -1,6 +1,5 @@
 package com.kaizensundays.eta.cache
 
-import com.kaizensundays.eta.jgroups.CacheCommandHandler
 import com.tngtech.archunit.base.DescribedPredicate.not
 import com.tngtech.archunit.core.domain.JavaClass.Predicates.equivalentTo
 import com.tngtech.archunit.core.importer.ClassFileImporter

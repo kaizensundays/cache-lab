@@ -50,15 +50,15 @@
           p:cacheName="default"
     />
 
-    <bean id="cacheCommandHandler" class="com.kaizensundays.eta.jgroups.CacheCommandHandler">
+    <bean id="cacheCommandHandler" class="com.kaizensundays.eta.cache.CacheCommandHandler">
         <constructor-arg index="0" ref="defaultCache"/>
     </bean>
 
-    <bean class="com.kaizensundays.eta.jgroups.DefaultRestController">
+    <bean class="com.kaizensundays.eta.cache.DefaultRestController">
         <constructor-arg index="0" ref="cacheCommandHandler"/>
     </bean>
 
-    <bean id="handler" class="com.kaizensundays.eta.jgroups.CacheWebSocketHandler">
+    <bean id="handler" class="com.kaizensundays.eta.cache.CacheWebSocketHandler">
         <constructor-arg index="0" ref="cacheCommandHandler"/>
     </bean>
 

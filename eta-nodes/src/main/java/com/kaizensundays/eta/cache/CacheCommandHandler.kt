@@ -1,10 +1,5 @@
-package com.kaizensundays.eta.jgroups
+package com.kaizensundays.eta.cache
 
-import com.kaizensundays.eta.cache.CacheGet
-import com.kaizensundays.eta.cache.CachePut
-import com.kaizensundays.eta.cache.EtaCache
-import com.kaizensundays.eta.cache.LoggingCacheEntryListener
-import com.kaizensundays.eta.cache.Msg
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
