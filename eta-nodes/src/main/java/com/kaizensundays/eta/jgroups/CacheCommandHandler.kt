@@ -1,7 +1,10 @@
 package com.kaizensundays.eta.jgroups
 
+import com.kaizensundays.eta.cache.CacheGet
+import com.kaizensundays.eta.cache.CachePut
 import com.kaizensundays.eta.cache.EtaCache
 import com.kaizensundays.eta.cache.LoggingCacheEntryListener
+import com.kaizensundays.eta.cache.Msg
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
@@ -58,6 +61,17 @@ class CacheCommandHandler(private val cache: EtaCache<String, String>) : Initial
                     //
                 }
             }
+        }
+
+        return "Ok"
+    }
+
+    fun execute(msg: Msg): String {
+
+        when (msg) {
+            is CacheGet -> cache.get(msg.key)
+            is CachePut -> cache.put(msg.key, msg.value)
+            else -> throw UnsupportedOperationException()
         }
 
         return "Ok"
