@@ -1,4 +1,4 @@
-package com.kaizensundays.eta.jgroups
+package com.kaizensundays.eta.cache
 
 import org.junit.jupiter.api.Test
 

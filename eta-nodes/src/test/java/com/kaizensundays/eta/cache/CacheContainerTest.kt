@@ -1,4 +1,4 @@
-package com.kaizensundays.eta.jgroups
+package com.kaizensundays.eta.cache
 
 import com.kaizensundays.messaging.WebFluxProducer
 import org.junit.jupiter.api.Assertions

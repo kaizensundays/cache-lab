@@ -16,5 +16,5 @@ java $FLAGS $JG_FLAGS \
  -Dcom.sun.management.jmxremote.ssl=false \
  -Dcom.sun.management.jmxremote.host=0.0.0.0 \
  -Djava.rmi.server.hostname=0.0.0.0 \
- -Dloader.main=com.kaizensundays.eta.jgroups.Main \
+ -Dloader.main=com.kaizensundays.eta.cache.Main \
  -cp service.jar org.springframework.boot.loader.launch.PropertiesLauncher

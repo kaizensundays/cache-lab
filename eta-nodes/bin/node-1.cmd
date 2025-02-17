@@ -21,6 +21,6 @@ set JGROUPS_RAFT_NODE_NAME=A
 start "Node" %JAVA_HOME%/bin/java %FLAGS% %JG_FLAGS% %LOG% ^
 		-Dproperties=node.yaml ^
 		-Dlogging.config=log4j2-1.xml ^
-                -Dloader.main=com.kaizensundays.eta.jgroups.Main ^
+                -Dloader.main=com.kaizensundays.eta.cache.Main ^
            	-cp service.jar org.springframework.boot.loader.launch.PropertiesLauncher
 

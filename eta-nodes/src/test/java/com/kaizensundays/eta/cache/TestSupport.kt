@@ -1,4 +1,4 @@
-package com.kaizensundays.eta.jgroups
+package com.kaizensundays.eta.cache
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
