@@ -5,4 +5,7 @@ package com.kaizensundays.eta.cache
  *
  * @author Sergey Chuykov
  */
-class CacheValue(val value: String?) : Response(0, "Ok", MsgType.CacheValue.name)
+class CacheValue(val value: String?) : Response(0, "Ok", MsgType.CacheValue.name) {
+
+    constructor() : this(null)
+}
