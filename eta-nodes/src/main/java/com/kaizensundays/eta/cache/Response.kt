@@ -9,4 +9,7 @@ open class Response(
     val code: Int,
     val text: String,
     type: String = MsgType.Response.name
-) : Msg(type)
+) : Msg(type) {
+
+    constructor() : this(0, "Ok")
+}

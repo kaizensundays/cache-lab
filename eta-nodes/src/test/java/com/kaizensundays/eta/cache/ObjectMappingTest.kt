@@ -17,21 +17,30 @@ class ObjectMappingTest {
         .build()
 
     @Test
-    fun converResponse() {
+    fun convertResponse() {
 
-        val s = jsonConverter.writeValueAsString(Response(0, "Ok"))
-            .replace("\r\n", "\n")
-
-        val x = """{
+        val json = listOf(
+            """{
             |  "type" : "Response",
             |  "seqNum" : 0,
             |  "code" : 0,
             |  "text" : "Ok"
-        |}"""
+        |}""",
+            """{
+            |  "type" : "Response",
+            |  "seqNum" : 0,
+            |  "code" : 1,
+            |  "text" : "System Error"
+        |}""",
+        ).map { it.trimMargin() }
 
-        val z = x.trimMargin()
-
-        assertEquals(z, s)
+        listOf(
+            Response(0, "Ok"),
+            Response(1, "System Error"),
+        ).forEachIndexed { i, res ->
+            assertEquals(json[i], jsonConverter.writeValueAsString(res).replace("\r\n", "\n"))
+            jsonConverter.readValue(json[i], Response::class.java)
+        }
     }
 
 }
