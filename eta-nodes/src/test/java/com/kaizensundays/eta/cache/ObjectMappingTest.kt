@@ -20,6 +20,7 @@ class ObjectMappingTest {
     fun converResponse() {
 
         val s = jsonConverter.writeValueAsString(Response(0, "Ok"))
+            .replace("\r\n", "\n")
 
         val x = """{
             |  "type" : "Response",
@@ -28,7 +29,7 @@ class ObjectMappingTest {
             |  "text" : "Ok"
         |}"""
 
-        val z = x.trimMargin().replace("\n", "\r\n")
+        val z = x.trimMargin()
 
         assertEquals(z, s)
     }
