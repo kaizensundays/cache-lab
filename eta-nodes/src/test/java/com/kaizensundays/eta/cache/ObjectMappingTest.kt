@@ -39,7 +39,7 @@ class ObjectMappingTest {
             Response(1, "System Error"),
         ).forEachIndexed { i, res ->
             assertEquals(json[i], jsonConverter.writeValueAsString(res).replace("\r\n", "\n"))
-            jsonConverter.readValue(json[i], Response::class.java)
+            jsonConverter.readValue(json[i], Msg::class.java)
         }
     }
 
