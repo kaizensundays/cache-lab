@@ -5,4 +5,4 @@ package com.kaizensundays.eta.cache
  *
  * @author Sergey Chuykov
  */
-class CacheGet(val key: String) : Msg(MsgType.CacheGet.name)
+class CacheGet(val key: String) : Msg(MsgType.CacheGet)

@@ -5,11 +5,13 @@ package com.kaizensundays.eta.cache
  *
  * @author Sergey Chuykov
  */
-enum class MsgType(val id: Int) {
+@Suppress("ConstPropertyName")
+object MsgType {
 
-    CacheGet(1),
-    CachePut(2),
-    Response(3),
-    CacheValue(4)
+    const val CacheGet = "CacheGet"
+    const val CachePut = "CachePut"
+
+    const val Response = "Response"
+    const val CacheValue = "CacheValue"
 
 }

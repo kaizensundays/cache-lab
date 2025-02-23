@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     property = "type"
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(value = Response::class, name = "Response"),
-    JsonSubTypes.Type(value = CacheValue::class, name = "CacheValue"),
-    JsonSubTypes.Type(value = CacheGet::class, name = "CacheGet"),
-    JsonSubTypes.Type(value = CachePut::class, name = "CachePut"),
+    JsonSubTypes.Type(value = Response::class, name = MsgType.Response),
+    JsonSubTypes.Type(value = CacheValue::class, name = MsgType.CacheValue),
+    JsonSubTypes.Type(value = CacheGet::class, name = MsgType.CacheGet),
+    JsonSubTypes.Type(value = CachePut::class, name = MsgType.CachePut),
 )
 abstract class Msg(val type: String) {
     val seqNum: Int = 0
